@@ -1,0 +1,16 @@
+/* o angular adiciona automaticamente a classe ng-leave-active ao elemento quando ele está saindo do filtro */
+.card-fade.ng-leave-active {
+	-moz-transform: scale(0.1);
+	-webkit-transform: scale(0.1);
+	-ms-transform: scale(0.1);
+	-o-transform: scale(0.1);
+	transform: scale(0.1);
+}
+/* aplica transição à propriedade transform dos elementos com classe card-fade */
+.card-fade {
+	-moz-transition: transform 0.8s;
+	-webkit-transition: transform 0.8s;
+	-ms-transition: transform 0.8s;
+	-0-transition: transform 0.8s;
+	transition: transform 0.8s;
+}
