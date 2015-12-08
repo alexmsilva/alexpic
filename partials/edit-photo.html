@@ -1,1 +1,38 @@
-<h2>Cadastro de Fotos</h2>
+<div layout="row" layout-sm="column">
+	<div layout="column" flex>
+		<form novalidate name="photoForm" ng-submit="savePhoto()">
+			<md-input-container flex>
+				<label>Título</label>
+				<input name="title" ng-model="photo.title" required />
+				<!-- <div ng-show="photoForm.title.$error.required"> -->
+				<div ng-messages="photoForm.title.$error">
+					<div ng-message="required">O campo título é obrigatório!</div>
+				</div>
+			</md-input-container>
+			<md-input-container flex>
+				<label>URL</label>
+				<input name="url" ng-model="photo.url" required />
+				<!-- <div ng-show="photoForm.url.$error.required"> -->
+				<div ng-messages="photoForm.url.$error">
+					<div ng-message="required">O campo url é obrigatório!</div>
+				</div>
+			</md-input-container>
+			<md-input-container class="md-block">
+				<label>Descrição</label>
+				<textarea name="description" ng-model="photo.description" columns="1" md-maxlength="120" ng-maxlength="120" rows="3"></textarea>
+				<!-- <div ng-show="photoForm.description.$error.maxlength"> -->
+				<div ng-messages="photoForm.description.$error">
+					<div ng-message="maxlength">Você ultrapassou o limite de 120 caracteres!</div>
+				</div>
+			</md-input-container>
+
+			<div layout="row">
+				<md-button type="submit" class="md-primary md-raised" ng-disabled="photoForm.$invalid">Salvar</md-button>
+				<md-button href="/" class="md-accent md-raised">Voltar</md-button>
+			</div>
+		</form>
+	</div>
+	<div flex>
+		
+	</div>
+</div>

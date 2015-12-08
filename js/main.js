@@ -1,4 +1,4 @@
-angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute'])
+angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute','ngMessages'])
 .config(function($routeProvider, $locationProvider) {
 	
 	$locationProvider.html5Mode(true);
@@ -9,7 +9,8 @@ angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute'])
 	});
 
 	$routeProvider.when("/photos/new", {
-		templateUrl : "partials/edit-photo.html"
+		templateUrl : "partials/edit-photo.html",
+		controller : "PhotoController"
 	});
 
 	$routeProvider.otherwise({redirectTo : "/photos"});
