@@ -19,20 +19,16 @@
 		<!-- Custom Javascripts -->
 		<script type="text/javascript" src="js/main.js"></script>
 		<script type="text/javascript" src="js/controllers/photos-controller.js"></script>
+		<script type="text/javascript" src="js/directives/custom-directives.js"></script>
 	</head>
 	<body ng-controller="PhotosController">
 		<md-toolbar class="md-tall md-accent" layout-align="space-around center">
-			<h1>Alexpic</h1>
+			<h2>Alexpic</h2>
 		</md-toolbar>
 		<md-content layout-padding layout="row" layout-wrap>
-			<div ng-repeat="photo in photos" flex-sm="50" flex-md="33" flex-gt-md="25">
-				<md-card>
-					<md-card-header layout-padding>
-						<md-card-header-text><span class="md-title">{{photo.title}}</span></md-card-header-text>
-					</md-card-header>
-					<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}">
-				</md-card>
-			</div>
+			<a-card ng-repeat="photo in photos" flex-sm="50" flex-md="33" flex-gt-md="25" title="{{photo.title}}">
+				<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}">
+			</a-card>
 		</md-content>
 	</body>
 </html>

@@ -1,1 +1,1 @@
-angular.module("alexpic", ['ngMaterial']);
+angular.module("alexpic", ['ngMaterial','customDirectives']);
