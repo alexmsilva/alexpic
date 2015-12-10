@@ -33,7 +33,9 @@
 			</div>
 		</form>
 	</div>
-	<div flex>
-		
+	<div flex layout layout-align="space-around center">
+		<a-card title="{{photo.title}}" flex="75">
+			<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}" />
+		</a-card>
 	</div>
 </div>

@@ -2,12 +2,10 @@ angular.module("alexpic").controller("PhotoController", function($scope, $http, 
 	$scope.photo = {};
 	$scope.savePhoto = function() {
 		if ($scope.photoForm.$valid) { // Hey! How can I access this?
-			console.log($scope.photo);
 			$http.post("api/calls.php?action=new", $scope.photo)
 			.success(function(data) {
 				$scope.photo = {};
 				$scope.showMessage("Foto adicionada com sucesso!");
-				console.log(data);
 			})
 			.error(function(data, status) {
 				$scope.showMessage("Não foi possível cadastrar a foto.");
