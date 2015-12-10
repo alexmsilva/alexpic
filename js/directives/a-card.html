@@ -1,6 +1,12 @@
 <md-card>
-	<md-card-header layout-padding>
-		<md-card-header-text><span class="md-title">{{title}}</span></md-card-header-text>
-	</md-card-header>
 	<div ng-transclude></div>
+	<md-card-title layout layout-align="center center">
+		<md-card-title-text>
+			<span class="md-headline">{{title}}</span>
+		</md-card-title-text>
+	</md-card-title>
+	<md-card-actions layout="row" layout-align="end center">
+		<md-button class="md-primary">Editar</md-button>
+		<md-button class="md-accent">Remover</md-button>
+	</md-card-actions>
 </md-card>

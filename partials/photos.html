@@ -7,8 +7,8 @@
 		<md-button href="/photos/new" class="md-primary md-raised">Nova Foto</md-button>
 	</div>
 </form>
-<div layout="row" layout-wrap>
-	<a-card class="card-fade" ng-repeat="photo in photos | filter: filter" flex-sm="50" flex-md="33" flex-gt-md="25" title="{{photo.title}}">
+<div layout="row" layout-sm="column" layout-wrap>
+	<a-card class="card-fade" ng-repeat="photo in photos | filter: filter" flex-md="33" flex-gt-md="25" title="{{photo.title}}">
 		<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}" />
 	</a-card>
 </div>
