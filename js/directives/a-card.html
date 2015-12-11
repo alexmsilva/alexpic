@@ -6,7 +6,7 @@
 		</md-card-title-text>
 	</md-card-title>
 	<md-card-actions layout="row" layout-align="end center">
-		<md-button class="md-primary">Editar</md-button>
-		<md-button class="md-accent">Remover</md-button>
+		<md-button href="photos/edit/{{photo_id}}" class="md-primary">Editar</md-button>
+		<md-button ng-click="deletePhoto(photo_id)" class="md-accent">Remover</md-button>
 	</md-card-actions>
 </md-card>

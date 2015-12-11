@@ -13,5 +13,10 @@ angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute','ngMessages
 		controller : "PhotoController"
 	});
 
+	$routeProvider.when("/photos/edit/:id", {
+		templateUrl : "partials/edit-photo.html",
+		controller : "PhotoController"
+	});
+
 	$routeProvider.otherwise({redirectTo : "/photos"});
 });
