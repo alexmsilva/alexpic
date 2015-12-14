@@ -8,8 +8,18 @@
 	</div>
 </form>
 <div layout="row" layout-sm="column" layout-wrap>
-	<a-card class="card-fade" ng-repeat="photo in photos | filter: filter" 
-		flex-md="33" flex-gt-md="25" title="{{photo.title}}" identifier="{{photo._id}}">
-		<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}" />
-	</a-card>
+	<div class="card-fade" ng-repeat="photo in photos | filter: filter" flex-md="33" flex-gt-md="25">
+		<md-card>
+			<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}" />
+			<md-card-title layout layout-align="center center">
+				<md-card-title-text>
+					<span class="md-headline">{{photo.title}}</span>
+				</md-card-title-text>
+			</md-card-title>
+			<md-card-actions layout="row" layout-align="end center">
+				<md-button href="photos/edit/{{photo._id}}" class="md-primary">Editar</md-button>
+				<md-button ng-click="deletePhoto(photo)" class="md-accent">Remover</md-button>
+			</md-card-actions>
+		</md-card>
+	</div>
 </div>

@@ -1,14 +1,8 @@
 angular.module("alexpic").controller("PhotoController", function($scope, $http, $mdToast, $routeParams) {
-	/* to avoid always to send an action, you may use http methods
-		GET to get the images
-		POST to insert a new image
-		DELETE to delete a image
-		PUT to edit a image
-	*/
 
 	$scope.photo = {};
 	$scope.savePhoto = function() {
-		if ($scope.photoForm.$valid) { // Hey! How can I access this?
+		if ($scope.photoForm.$valid) {
 			if ($scope.photo._id) {
 				$http.post("api/photos.php?action=edit", $scope.photo)
 				.success(function(data) {
