@@ -41,6 +41,7 @@ switch ($action) {
 		$photo = array(
 			'_id' => count($photos)+1,
 			'title' => $postdata['title'],
+			'category' => $postdata['category'],
 			'url' => "data:image/{$file_type};base64,".base64_encode($image)
 		);
 
@@ -56,7 +57,7 @@ switch ($action) {
 		
 		foreach ($photos as $key => $p) {
 			if ($p['_id'] == $postdata['_id']) {
-				$photo = array('_id' => $postdata['_id'], 'title' => $postdata['title']);
+				$photo = array('_id' => $postdata['_id'], 'title' => $postdata['title'], 'category' => $postdata['category']);
 				
 				if (preg_match("/.+(\.\w{3,4})$/", $postdata['url'])) {
 					$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);
