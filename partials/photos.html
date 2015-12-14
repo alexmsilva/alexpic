@@ -9,7 +9,7 @@
 </form>
 <div layout="row" layout-sm="column" layout-wrap>
 	<a-card class="card-fade" ng-repeat="photo in photos | filter: filter" 
-		flex-md="33" flex-gt-md="25" title="{{photo.title}}" identifier="{{photo._id}}">
+		flex-md="33" flex-gt-md="25" title="{{photo.title}}" remove="deletePhoto(photo)" identifier="{{photo._id}}">
 		<img ng-src="{{photo.url}}" class="md-card-image" alt="{{photo.title}}" />
 	</a-card>
 </div>

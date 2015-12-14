@@ -1,4 +1,4 @@
-angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute','ngMessages'])
+angular.module("alexpic", ['ngMaterial','customDirectives','ngRoute','ngMessages','ngResource'])
 .config(function($routeProvider, $locationProvider) {
 	
 	$locationProvider.html5Mode(true);

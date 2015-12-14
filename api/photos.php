@@ -2,6 +2,12 @@
 header('Content-Type: application/json');
 
 $action = $_GET['action'];
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+	$action = (preg_match("/_id/", file_get_contents("php://input"))) ? "edit" : "new";
+}
+else if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
+	$action = "get";
+}
 
 $photos = array(
 	array('title' => "Leão", 'url' => "images/lion.jpg"),
@@ -77,7 +83,12 @@ switch ($action) {
 		break;
 
 	case 'delete':
-		$postdata = json_decode(file_get_contents("php://input"));
+		if (isset($_GET['id'])) {
+			$postdata->id = $_GET['id'];
+		}
+		else {
+			$postdata = json_decode(file_get_contents("php://input"));
+		}
 		$photos = json_decode(file_get_contents("photos.txt"), true);
 		$remain = array();
 		foreach ($photos as $photo) {
@@ -90,7 +101,12 @@ switch ($action) {
 		break;
 
 	case 'get':
-		$postdata = json_decode(file_get_contents("php://input"));
+		if (isset($_GET['id'])) {
+			$postdata->id = $_GET['id'];
+		}
+		else {
+			$postdata = json_decode(file_get_contents("php://input"));
+		}
 		$photos = json_decode(file_get_contents("photos.txt"), true);
 		$chosen = array();
 		foreach ($photos as $photo) {
