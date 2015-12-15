@@ -1,8 +1,6 @@
-angular.module("alexpic").controller("PhotosController", function($scope, $resource) {
+angular.module("alexpic").controller("PhotosController", function($scope, photoResource) {
 	$scope.photos = [];
 	$scope.filter = "";
-
-	var photoResource = $resource("api/photos.php");
 
 	// getting the photos
 	photoResource.query({"action":"photos"}, function successCallback(photos) {

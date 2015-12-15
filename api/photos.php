@@ -3,7 +3,10 @@ header('Content-Type: application/json');
 
 $action = $_GET['action'];
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-	$action = (preg_match("/_id/", file_get_contents("php://input"))) ? "edit" : "new";
+	$action = "edit";
+}
+else if ($_SERVER['REQUEST_METHOD'] == "PUT") {
+	$action = "new";
 }
 else if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['id'])) {
 	$action = "get";

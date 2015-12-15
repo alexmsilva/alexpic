@@ -1,15 +1,10 @@
-angular.module("alexpic").controller("PhotoController", function($scope, $http, $mdToast, $routeParams, $resource) {
+angular.module("alexpic").controller("PhotoController", function($scope, $mdToast, $routeParams, photoResource) {
 	/* to avoid always to send an action, you may use http methods
 		GET to get the images
 		PUT to insert a new image
 		DELETE to delete a image
 		POST to edit a image
 	*/
-
-	var photoResource = $resource("api/photos.php", null, {
-		newPhoto : { method : "POST" },
-		update : { method : "POST" }
-	});
 
 	$scope.photo = {};
 	$scope.savePhoto = function() {
