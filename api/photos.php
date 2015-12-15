@@ -1,7 +1,4 @@
 <?php
-header('Content-Type: application/json');
-
-$action = $_GET['action'];
 
 $photos = array(
 	array('title' => "Leão", 'url' => "images/lion.jpg"),
@@ -10,112 +7,84 @@ $photos = array(
 	array('title' => "Águia", 'url' => "images/eagle.jpg"),
 );
 
-switch ($action) {
-	case 'photos':
-		$return = array();
-		if (file_exists("photos.txt")) {
-			$return = file_get_contents("photos.txt");
-			print $return;
-		}
-		else {
-			foreach ($photos as $key => $photo) {
-				$image = file_get_contents("../".$photo['url'], FILE_USE_INCLUDE_PATH);
-				$return[] = array(
-					'_id' => ($key+1),
-					'title' => $photo['title'],
-					'url' => "data:image/jpg;base64,".base64_encode($image)
-				);
+$method = $_SERVER['REQUEST_METHOD'];
+switch ($method) {
+	case 'DELETE':
+		if (isset($_GET['id'])) {
+			$photos = json_decode(file_get_contents("photos.txt"), true);
+			$remain = array();
+			foreach ($photos as $photo) {
+				if ($photo['_id'] != $_GET['id']) {
+					$remain[] = $photo;
+				}
 			}
-			file_put_contents("photos.txt", json_encode($return));
-			print json_encode($return);
+			file_put_contents("photos.txt", json_encode($remain));
 		}
 		break;
 
-	case 'new':
-		$photos = json_decode(file_get_contents("photos.txt"), true);
-		$postdata = file_get_contents("php://input");
-		$postdata = json_decode($postdata, true);
+	case 'POST':
+		$postdata = json_decode(file_get_contents("php://input"), true);
+		if (preg_match("/.+(\.\w{3,4})$/", $postdata['url'])) {
+			$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);
+			$image = file_get_contents($postdata['url']);
+			$postdata['url'] = "data:image/jpg;base64,".base64_encode($image);
+		}
+
+		$data = json_decode(file_get_contents("photos.txt"), true);
+		foreach ($data as $key => $photo) {
+			if ($photo['_id'] == $postdata['_id']) {
+				$data[$key] = $postdata;
+				file_put_contents("photos.txt", json_encode($data));
+				break;
+			}
+		}
+
+		break;
+
+	case 'PUT':
+		$postdata = json_decode(file_get_contents("php://input"), true);
+		
 		$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);
 		$image = file_get_contents($postdata['url']);
+		$postdata['url'] = "data:image/jpg;base64,".base64_encode($image);
 
-		$photo = array(
-			'_id' => count($photos)+1,
-			'title' => $postdata['title'],
-			'url' => "data:image/{$file_type};base64,".base64_encode($image)
-		);
+		$postdata['_id'] = md5($postdata['url'].date("Y-m-d H:i:s"));
 
-		$photos[] = $photo;
-		file_put_contents("photos.txt", json_encode($photos));
-		break;
+		$data = json_decode(file_get_contents("photos.txt"), true);
+		$data[] = $postdata;
 
-	case 'edit':
-		$postdata = file_get_contents("php://input");
-		$postdata = json_decode($postdata, true);
-		
-		$photos = json_decode(file_get_contents("photos.txt"), true);
-		
-		foreach ($photos as $key => $p) {
-			if ($p['_id'] == $postdata['_id']) {
-				$photo = array('_id' => $postdata['_id'], 'title' => $postdata['title']);
-				
-				if (preg_match("/.+(\.\w{3,4})$/", $postdata['url'])) {
-					$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);
-					$image = file_get_contents($postdata['url']);
-					$photo['url'] = "data:image/{$file_type};base64,".base64_encode($image);
-				}
-				else {
-					//$photo['url'] = $postdata['url']; // isso vai dar zica
-				}
-
-				$photos[$key] = $photo;
-				file_put_contents("photos.txt", json_encode($photos));
-				break;
-			}
-		}
-
-		break;
-
-	case 'delete':
-		$postdata = json_decode(file_get_contents("php://input"));
-		$photos = json_decode(file_get_contents("photos.txt"), true);
-		$remain = array();
-		foreach ($photos as $photo) {
-			if ($photo['_id'] != $postdata->id) {
-				$remain[] = $photo;
-			}
-		}
-		file_put_contents("photos.txt", json_encode($remain));
-
-		break;
-
-	case 'get':
-		$postdata = json_decode(file_get_contents("php://input"));
-		$photos = json_decode(file_get_contents("photos.txt"), true);
-		$chosen = array();
-		foreach ($photos as $photo) {
-			if ($photo['_id'] == $postdata->id) {
-				$chosen = $photo;
-				break;
-			}
-		}
-
-		if (count($chosen)) {
-			print json_encode($chosen);
-		}
-		else {
-			header('HTTP/1.1 500 Internal Server Error');
-		}
-
-		break;
-
-	case 'clear':
-		if (file_exists("photos.txt")) {
-			unlink("photos.txt");
-		}
+		file_put_contents("photos.txt", json_encode($data));
 		break;
 	
 	default:
-		print json_encode(array('success' => "false"));
+		header('Content-Type: application/json');
+
+		$data = file_get_contents("photos.txt");
+		if (isset($_GET['id'])) {
+			$photos = json_decode($data, true);
+			foreach ($photos as $photo) {
+				if ($photo['_id'] == $_GET['id']) {
+					print json_encode($photo);
+					break;
+				}
+			}
+		}
+		else {
+			if ($data === FALSE) {
+				foreach ($photos as $key => $photo) {
+					$image = file_get_contents("../".$photo['url']);
+					$data[] = array(
+						'_id' => md5($photo['url'].date("Y-m-d H:i:s")),
+						'title' => $photo['title'],
+						'url' => "data:image/jpg;base64,".base64_encode($image)
+					);
+				}
+				$data = json_encode($data);
+				file_put_contents("photos.txt", $data);
+			}
+			print $data;
+		}
 		break;
-}
+} // end switch
+
 ?>
