@@ -1,4 +1,4 @@
-angular.module("alexpic").controller("PhotoController", function($scope, $mdToast, $routeParams, photoResource) {
+angular.module("alexpic").controller("PhotoController", function($scope, $mdToast, $routeParams, photoResource, photoSavior) {
 
 	$scope.photo = {};
 
@@ -14,24 +14,15 @@ angular.module("alexpic").controller("PhotoController", function($scope, $mdToas
 	
 	$scope.savePhoto = function() {
 		if ($scope.photoForm.$valid) {
-			if ($scope.photo._id) {
-				photoResource.update($scope.photo, function() {
+			photoSavior.save($scope.photo).then(function(response) {
+				$scope.showMessage(response.message);
+				if (response.inclusion) {
 					$scope.photo = {};
-					$scope.showMessage("A Foto foi alterada com sucesso!");
-
-				}, function(data, status) {
-					console.log(data);
-				});
-			}
-			else {
-				photoResource.save($scope.photo, function() {
-					$scope.photo = {};
-					$scope.showMessage("Foto adicionada com sucesso!");
-
-				}, function(data, status) {
-					console.log(data);
-				});
-			}
+				};
+			})
+			.catch (function(response) {
+				$scope.showMessage(response.message);
+			});
 		};
 	};
 
