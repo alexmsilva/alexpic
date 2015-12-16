@@ -6,6 +6,8 @@ angular.module("alexpic").controller("PhotoController", function($scope, $mdToas
 		POST to edit a image
 	*/
 
+	$scope.focused = false;
+
 	$scope.photo = {};
 	$scope.savePhoto = function() {
 		if ($scope.photoForm.$valid) { // Hey! How can I access this?
@@ -14,6 +16,7 @@ angular.module("alexpic").controller("PhotoController", function($scope, $mdToas
 				if (response.inclusion) {
 					$scope.photo = {};
 				};
+				$scope.focused = true;
 			})
 			.catch (function(response) {
 				$scope.showMessage(response.message);
