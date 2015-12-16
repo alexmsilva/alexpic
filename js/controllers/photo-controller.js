@@ -14,8 +14,6 @@ angular.module("alexpic").controller("PhotoController", function($scope, $mdToas
 				if (response.inclusion) {
 					$scope.photo = {};
 				};
-				//$scope.focused = true;
-				$scope.$broadcast("photoSaved");
 			})
 			.catch (function(response) {
 				$scope.showMessage(response.message);
