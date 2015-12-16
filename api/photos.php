@@ -22,7 +22,7 @@ switch ($method) {
 		}
 		break;
 
-	case 'POST':
+	case 'PUT':
 		$postdata = json_decode(file_get_contents("php://input"), true);
 		if (preg_match("/.+(\.\w{3,4})$/", $postdata['url'])) {
 			$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);
@@ -41,7 +41,7 @@ switch ($method) {
 
 		break;
 
-	case 'PUT':
+	case 'POST':
 		$postdata = json_decode(file_get_contents("php://input"), true);
 		
 		$file_type = preg_replace("/.+(\.\w{3,4})$/", "$1", $postdata['url']);

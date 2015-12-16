@@ -1,13 +1,13 @@
-angular.module("alexpic").controller("PhotoController", function($scope, $http, $mdToast, $routeParams) {
+angular.module("alexpic").controller("PhotoController", function($scope, $mdToast, $routeParams, photoResource) {
 
 	$scope.photo = {};
 
 	// load a photo when there's a id passed by param
 	if ($routeParams.id) {
-		$http.get("api/photos.php?id=" + $routeParams.id).success(function(data) {
-			$scope.photo = data;
-	
-		}).error(function(data, status) {
+		photoResource.get({"id":$routeParams.id}, function(photo) {
+			$scope.photo = photo;
+			
+		}, function(data, status) {
 			console.log(data);
 		});
 	}
@@ -15,23 +15,21 @@ angular.module("alexpic").controller("PhotoController", function($scope, $http, 
 	$scope.savePhoto = function() {
 		if ($scope.photoForm.$valid) {
 			if ($scope.photo._id) {
-				$http.post("api/photos.php", $scope.photo)
-				.success(function(data) {
+				photoResource.update($scope.photo, function() {
 					$scope.photo = {};
 					$scope.showMessage("A Foto foi alterada com sucesso!");
-				})
-				.error(function(data, status) {
-					$scope.showMessage("Não foi possível alterar a foto.");
+
+				}, function(data, status) {
+					console.log(data);
 				});
 			}
 			else {
-				$http.put("api/photos.php", $scope.photo)
-				.success(function(data) {
+				photoResource.save($scope.photo, function() {
 					$scope.photo = {};
 					$scope.showMessage("Foto adicionada com sucesso!");
-				})
-				.error(function(data, status) {
-					$scope.showMessage("Não foi possível cadastrar a foto.");
+
+				}, function(data, status) {
+					console.log(data);
 				});
 			}
 		};
