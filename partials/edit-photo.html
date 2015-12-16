@@ -9,6 +9,7 @@
 					<div ng-message="required">O campo título é obrigatório!</div>
 				</div>
 			</md-input-container>
+			
 			<md-input-container flex>
 				<label>URL</label>
 				<input name="url" ng-model="photo.url" required />
@@ -16,6 +17,17 @@
 					<div ng-message="required">O campo url é obrigatório!</div>
 				</div>
 			</md-input-container>
+
+			<md-input-container flex>
+				<label>Categorias</label>
+				<md-select name="category" ng-model="photo.category" ng-controller="CategoriesController" required>
+					<md-option ng-repeat="category in categories" value="{{category._id}}">{{category.name}}</md-option>
+				</md-select>
+				<div ng-messages="photoForm.category.$error">
+					<div ng-message="required">A categoria é obrigatória!</div>
+				</div>
+			</md-input-container>
+			
 			<md-input-container class="md-block">
 				<label>Descrição</label>
 				<textarea name="description" ng-model="photo.description" columns="1" md-maxlength="120" ng-maxlength="120" rows="3"></textarea>
