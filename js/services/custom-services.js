@@ -4,12 +4,15 @@ angular.module("aServices", ['ngResource'])
 		update : { method : "PUT" }
 	});
 })
-.factory("photoSavior", function(photoResource, $q) {
+.factory("photoSavior", function(photoResource, $q, $rootScope) {
+	var save_event = "photoSaved";
+
 	var service = {};
 	service.save = function(photo) {
 		return $q(function(resolve, reject) {
 			if (photo._id) {
 				photoResource.update(photo, function() {
+					$rootScope.$broadcast(save_event);
 					resolve({
 						message : "A foto " + photo.title + " foi alterada com sucesso!",
 						inclusion : false
@@ -24,6 +27,7 @@ angular.module("aServices", ['ngResource'])
 			}
 			else {
 				photoResource.save(photo, function() {
+					$rootScope.$broadcast(save_event);
 					resolve({
 						message : "A foto " + photo.title + " foi incluída com sucesso!",
 						inclusion : true
